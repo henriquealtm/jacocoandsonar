@@ -1,0 +1,60 @@
+trigger:
+  branches:
+    include:
+      - develop
+      - feature/*
+      - fix/*
+      - refact/*
+pool:
+  name: Default
+
+steps:
+- task: Gradle@2
+  displayName: 'Build'
+  inputs:
+    workingDirectory: ''
+    gradleWrapperFile: 'gradlew'
+    gradleOptions: '-Xmx3072m'
+    publishJUnitResults: true
+    testResultsFiles: '**/TEST-*.xml'
+    tasks: 'assembleDebug'
+
+- task: CmdLine@2
+  displayName: 'Single module Coverage Reports'
+  inputs:
+    script: './gradlew debugCoverage'
+
+# After generating the module coverage reports, there must be delay to run the project coverage report (merged report with all module reports) problem properly
+- task: CmdLine@2
+  displayName: 'Waiting 5 seconds'
+  inputs:
+    script: 'sleep 5'
+
+- task: CmdLine@2
+  displayName: 'Project Coverage Report'
+  inputs:
+    script: './gradlew allDebugCoverage'
+
+- task: CopyFiles@2
+  displayName: 'Coverage Report Copy'
+  inputs:
+    SourceFolder: '$(system.defaultworkingdirectory)'
+    Contents: '**/jacoco/*.xml'
+    TargetFolder: '$(build.artifactstagingdirectory)'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish  Artifact: drop'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)'
+
+- task: CmdLine@2
+  displayName: 'Sonar Qube'
+  inputs:
+    script: './gradlew sonarQube'
+  env:
+    SONAR_LOGIN: $(SONAR_LOGIN)
+
+- task: CmdLine@2
+  displayName: 'Firebase App Distribution'
+  inputs:
+    script: './gradlew appDistributionUploadDebug'

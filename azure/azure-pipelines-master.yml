@@ -1,0 +1,36 @@
+trigger:
+- master
+
+pool:
+  # TODO Henrique - Force to run o the Default pool where it's set the local agent
+  name: Default
+
+steps:
+
+# TODO Henrique - Not necessary step when running in the local agent
+#- task: JavaToolInstaller@0
+#  inputs:
+#    versionSpec: '11'
+#    jdkArchitectureOption: 'x64'
+#    jdkSourceOption: 'PreInstalled'
+
+- task: Gradle@2
+  displayName: 'Build'
+  inputs:
+    workingDirectory: ''
+    gradleWrapperFile: 'gradlew'
+    gradleOptions: '-Xmx3072m'
+    publishJUnitResults: true
+    testResultsFiles: '**/TEST-*.xml'
+    tasks: 'bundleRelease'
+  env:
+    # Just testing the integration with the build gradle file and the azure pipeline variables
+    # 1- Create a variable in the Azure -> Pipelines -> Select the pipeline -> Edit -> Variables -> Add the variables
+    # 2- Here in the YAML file, add the 'env' definition e below it, add a new var with the variable added in the azure pipeline library
+    # 3- Get this var below inside of the gradle file, just call something like this -> System.getenv("TEST_VARIABLE_FROM_YAML") as Integer ?: 0
+    SDK_VERSION_VARIABLE_TEST: $(COMPILE_SDK_VERSION)
+
+- task: CmdLine@2
+  displayName: 'Firebase App Distribution'
+  inputs:
+    script: './gradlew appDistributionUploadRelease'

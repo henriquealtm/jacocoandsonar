@@ -71,9 +71,17 @@ project.afterEvaluate {
         def executions = subprojects.findAll { proj ->
             def path = "${proj.buildDir}/jacoco/testDebugUnitTest.exec"
             (new File(path)).exists()
-        }.collect {proj ->
+        }.collect { proj ->
             "${proj.buildDir}/jacoco/testDebugUnitTest.exec"
         }
+
+
+        logger.quiet("Exections array: " + executions)
+        // Exception when syncing if the executions is 0
+//        if (executions.size == 0) {
+//            throw new GradleException("There is no testDebugUnitTest.exec files...")
+//        }
+
         executionData.from = files(executions)
     }
 }

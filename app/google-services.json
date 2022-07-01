@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "359607122235",
+    "project_id": "jacocoandsonar",
+    "storage_bucket": "jacocoandsonar.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:359607122235:android:64109d5a967912bb0ddf1e",
+        "android_client_info": {
+          "package_name": "br.com.jacocoandsonar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "359607122235-j6njkq98vnnf0be5j4sen6ai5i8muuq8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9CzT1xlFKYlvK74EhsL9GK1YLBLxW63o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "359607122235-j6njkq98vnnf0be5j4sen6ai5i8muuq8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:359607122235:android:aacd1b2bf7bf5bf80ddf1e",
+        "android_client_info": {
+          "package_name": "br.com.jacocoandsonar.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "359607122235-j6njkq98vnnf0be5j4sen6ai5i8muuq8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9CzT1xlFKYlvK74EhsL9GK1YLBLxW63o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "359607122235-j6njkq98vnnf0be5j4sen6ai5i8muuq8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

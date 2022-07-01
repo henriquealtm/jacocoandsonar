@@ -1,27 +1,49 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.appdistribution'
 }
 
 apply from: '../jacoco/modules.gradle'
 
+def sdkVersionVariableTest = System.getenv("SDK_VERSION_VARIABLE_TEST") as Integer ?: 31
+
 android {
-    compileSdk 32
+    compileSdk sdkVersionVariableTest
 
     defaultConfig {
-        applicationId "com.example.jacocoandsonar"
+        applicationId "br.com.jacocoandsonar"
         minSdk 21
         targetSdk 32
-        versionCode 1
-        versionName "1.0"
+        versionCode 8
+        versionName "1.7"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
+        debug {
+            minifyEnabled false
+            applicationIdSuffix ".debug"
+            versionNameSuffix(".debug")
+            firebaseAppDistribution {
+                appId = "1:359607122235:android:aacd1b2bf7bf5bf80ddf1e"
+                releaseNotes = "First publication Debug..."
+                artifactType = "APK"
+                groups = "company-debug"
+            }
+        }
         release {
             minifyEnabled false
+            versionNameSuffix(".release")
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            firebaseAppDistribution {
+                appId = "1:359607122235:android:64109d5a967912bb0ddf1e"
+                releaseNotes = "First publication Release..."
+                artifactType = "AAB"
+                groups = "company-beta"
+            }
         }
     }
     compileOptions {
@@ -32,9 +54,10 @@ android {
         jvmTarget = '1.8'
     }
     buildFeatures {
-        viewBinding true
+        dataBinding true
     }
     testOptions {
+        unitTests.includeAndroidResources = true
         unitTests.all {
             jacoco {
                 includeNoLocationClasses = true
@@ -53,7 +76,20 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.4.2'
     implementation 'androidx.navigation:navigation-ui-ktx:2.4.2'
+    implementation 'androidx.activity:activity-ktx:1.5.0'
+
+    implementation platform('com.google.firebase:firebase-bom:30.2.0')
+    implementation 'com.google.firebase:firebase-analytics'
+
+
     testImplementation 'junit:junit:4.13.2'
+    testImplementation 'androidx.test:core-ktx:1.4.0'
+    testImplementation 'androidx.test.ext:junit-ktx:1.1.3'
+    testImplementation 'org.robolectric:robolectric:4.7.3'
+    testImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    testImplementation "io.mockk:mockk:1.12.4"
+    testImplementation "androidx.arch.core:core-testing:2.1.0"
+
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 }
