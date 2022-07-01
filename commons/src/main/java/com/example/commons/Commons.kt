@@ -6,8 +6,8 @@ class Commons {
 
     fun subtractOne(param: Int) = param - 1
 
-    fun c(){
-        if(2 == 2) 2
+    fun c() {
+        if (2 == 2) 2
     }
 
 }
